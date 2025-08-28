@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đố Vui Không Giới Hạn</title>
+    <title>Đố Vui Có Mật Mã</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -25,7 +25,7 @@
         }
         
         .container {
-            max-width: 800px;
+            max-width: 600px;
             width: 100%;
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
@@ -38,7 +38,7 @@
         }
         
         h1 {
-            font-size: 36px;
+            font-size: 32px;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
@@ -83,46 +83,29 @@
             line-height: 1.5;
         }
         
-        .options-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
+        .answer-form {
             margin-bottom: 25px;
         }
         
-        .option {
-            background: rgba(255, 255, 255, 0.1);
+        .answer-input {
+            width: 100%;
+            padding: 15px;
             border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 12px;
-            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
             font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
         }
         
-        .option:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-        }
-        
-        .option.correct {
-            background: rgba(76, 175, 80, 0.7);
+        .answer-input:focus {
+            outline: none;
             border-color: #4caf50;
         }
         
-        .option.incorrect {
-            background: rgba(244, 67, 54, 0.7);
-            border-color: #f44336;
-        }
-        
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .btn {
-            background: rgba(255, 255, 255, 0.2);
+        .submit-btn {
+            background: rgba(76, 175, 80, 0.7);
             color: white;
             border: none;
             border-radius: 50px;
@@ -132,66 +115,114 @@
             transition: all 0.3s ease;
         }
         
-        .btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+        .submit-btn:hover {
+            background: rgba(76, 175, 80, 0.9);
             transform: translateY(-3px);
         }
         
-        .btn-next {
-            background: rgba(33, 150, 243, 0.7);
+        .hint-container {
+            margin-bottom: 25px;
         }
         
-        .category-selector {
-            margin-bottom: 20px;
+        .hint-btn {
+            background: rgba(255, 193, 7, 0.7);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
         }
         
-        .category-btn {
+        .hint-btn:hover {
+            background: rgba(255, 193, 7, 0.9);
+            transform: translateY(-3px);
+        }
+        
+        .hint-input-container {
+            display: none;
+            margin-bottom: 15px;
+        }
+        
+        .hint-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
             background: rgba(255, 255, 255, 0.1);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            font-size: 18px;
+            margin-bottom: 15px;
+            transition: border-color 0.3s;
+        }
+        
+        .hint-input:focus {
+            outline: none;
+            border-color: #ffc107;
+        }
+        
+        .hint-submit-btn {
+            background: rgba(255, 193, 7, 0.7);
+            color: white;
+            border: none;
             border-radius: 50px;
-            padding: 8px 20px;
-            margin: 0 5px;
+            padding: 12px 25px;
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
         
-        .category-btn.active {
-            background: rgba(33, 150, 243, 0.7);
-            border-color: rgba(255, 255, 255, 0.5);
+        .hint-submit-btn:hover {
+            background: rgba(255, 193, 7, 0.9);
+            transform: translateY(-3px);
+        }
+        
+        .hint-text {
+            display: none;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            font-size: 16px;
+            line-height: 1.5;
         }
         
         .feedback {
             margin-top: 20px;
             font-size: 18px;
             min-height: 27px;
+            font-weight: bold;
         }
         
-        .difficulty-selector {
-            margin: 15px 0;
+        .correct {
+            color: #4caf50;
         }
         
-        .difficulty-btn {
-            background: rgba(255, 255, 255, 0.1);
+        .incorrect {
+            color: #f44336;
+        }
+        
+        .next-btn {
+            display: none;
+            background: rgba(33, 150, 243, 0.7);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: none;
             border-radius: 50px;
-            padding: 6px 15px;
-            margin: 0 5px;
+            padding: 12px 25px;
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-top: 20px;
         }
         
-        .difficulty-btn.active {
-            background: rgba(156, 39, 176, 0.7);
-            border-color: rgba(255, 255, 255, 0.5);
+        .next-btn:hover {
+            background: rgba(33, 150, 243, 0.9);
+            transform: translateY(-3px);
         }
         
         @media (max-width: 600px) {
-            .options-container {
-                grid-template-columns: 1fr;
-            }
-            
             h1 {
                 font-size: 28px;
             }
@@ -235,20 +266,7 @@
 </head>
 <body>
     <div class="container">
-        <h1><i class="fas fa-brain"></i> Đố Vui Không Giới Hạn</h1>
-        
-        <div class="category-selector">
-            <button class="category-btn active" data-category="general">Tổng hợp</button>
-            <button class="category-btn" data-category="science">Khoa học</button>
-            <button class="category-btn" data-category="history">Lịch sử</button>
-            <button class="category-btn" data-category="geography">Địa lý</button>
-        </div>
-        
-        <div class="difficulty-selector">
-            <button class="difficulty-btn active" data-difficulty="easy">Dễ</button>
-            <button class="difficulty-btn" data-difficulty="medium">Trung bình</button>
-            <button class="difficulty-btn" data-difficulty="hard">Khó</button>
-        </div>
+        <h1><i class="fas fa-lock"></i> Đố Vui Có Mật Mã</h1>
         
         <div class="score-container">
             <div class="score-box">
@@ -266,232 +284,174 @@
         </div>
         
         <div class="question-container">
-            <div class="question" id="question">Bấm "Câu tiếp theo" để bắt đầu!</div>
+            <div class="question" id="question">Bấm nút "Bắt Đầu" để chơi!</div>
         </div>
         
-        <div class="options-container" id="options-container">
-            <div class="option" data-index="0">Đáp án 1</div>
-            <div class="option" data-index="1">Đáp án 2</div>
-            <div class="option" data-index="2">Đáp án 3</div>
-            <div class="option" data-index="3">Đáp án 4</div>
+        <div class="answer-form">
+            <input type="text" class="answer-input" id="answer-input" placeholder="Nhập câu trả lời của bạn...">
+            <button class="submit-btn" id="submit-btn">Gửi Câu Trả Lời</button>
+        </div>
+        
+        <div class="hint-container">
+            <button class="hint-btn" id="hint-btn"><i class="fas fa-key"></i> Mở Gợi Ý</button>
+            
+            <div class="hint-input-container" id="hint-input-container">
+                <input type="password" class="hint-input" id="hint-input" placeholder="Nhập mật mã để xem gợi ý...">
+                <button class="hint-submit-btn" id="hint-submit-btn">Xác Nhận</button>
+            </div>
+            
+            <div class="hint-text" id="hint-text"></div>
         </div>
         
         <div class="feedback" id="feedback"></div>
         
-        <div class="controls">
-            <button class="btn" id="hint-btn"><i class="fas fa-lightbulb"></i> Gợi ý</button>
-            <button class="btn btn-next" id="next-btn">Câu tiếp theo</button>
-            <button class="btn" id="reset-btn"><i class="fas fa-redo"></i> Reset</button>
-        </div>
+        <button class="next-btn" id="next-btn">Câu Tiếp Theo</button>
     </div>
 
     <script>
-        // Cơ sở dữ liệu câu hỏi mẫu
-        const questionDatabase = {
-            general: {
-                easy: [
-                    {
-                        question: "Thủ đô của Việt Nam là gì?",
-                        options: ["Hà Nội", "Hồ Chí Minh", "Đà Nẵng", "Cần Thơ"],
-                        correctIndex: 0,
-                        hint: "Thành phố này nằm ở miền Bắc Việt Nam"
-                    },
-                    {
-                        question: "Loài động vật nào được gọi là 'Chúa tể sơn lâm'?",
-                        options: ["Sư tử", "Hổ", "Báo", "Gấu"],
-                        correctIndex: 1,
-                        hint: "Loài vật này có các sọc vằn trên người"
-                    }
-                ],
-                medium: [
-                    {
-                        question: "Ngày Quốc khánh Việt Nam là ngày nào?",
-                        options: ["30/4", "2/9", "19/5", "10/10"],
-                        correctIndex: 1,
-                        hint: "Ngày này vào năm 1945"
-                    }
-                ],
-                hard: [
-                    {
-                        question: "Năm nào được gọi là 'Năm châu Phi'?",
-                        options: ["1956", "1960", "1965", "1970"],
-                        correctIndex: 1,
-                        hint: "Năm mà 17 quốc gia châu Phi giành được độc lập"
-                    }
-                ]
+        // Cơ sở dữ liệu câu hỏi
+        const questions = [
+            {
+                question: "Thủ đô của Việt Nam là thành phố nào?",
+                answer: "hà nội",
+                hintCode: "1234",
+                hint: "Thành phố này nằm ở miền Bắc Việt Nam, có hồ Hoàn Kiếm và chùa Một Cột"
             },
-            science: {
-                easy: [
-                    {
-                        question: "Hành tinh nào gần Mặt Trời nhất?",
-                        options: ["Sao Thủy", "Sao Kim", "Trái Đất", "Sao Hỏa"],
-                        correctIndex: 0,
-                        hint: "Hành tinh nhỏ nhất trong hệ Mặt Trời"
-                    }
-                ],
-                medium: [
-                    {
-                        question: "Nguyên tố nào có số nguyên tử là 1?",
-                        options: ["Heli", "Oxy", "Hydro", "Carbon"],
-                        correctIndex: 2,
-                        hint: "Nguyên tố nhẹ nhất"
-                    }
-                ],
-                hard: [
-                    {
-                        question: "Hiện tượng nào sau đây không phải là hiệu ứng lượng tử?",
-                        options: ["Giao thoa", "Đường hầm lượng tử", "Siêu dẫn", "Cảm ứng điện từ"],
-                        correctIndex: 3,
-                        hint: "Hiện tượng này được mô tả bởi định luật Faraday"
-                    }
-                ]
+            {
+                question: "Loài động vật nào được gọi là 'Chúa tể sơn lâm'?",
+                answer: "hổ",
+                hintCode: "5678",
+                hint: "Loài vật này có các sọc vằn trên người, là biểu tượng của nhiều đội tuyển thể thao"
             },
-            history: {
-                easy: [
-                    {
-                        question: "Ai là vị vua đầu tiên của nước Việt Nam thống nhất?",
-                        options: ["Lý Thái Tổ", "Lê Thánh Tông", "Gia Long", "Quang Trung"],
-                        correctIndex: 2,
-                        hint: "Người sáng lập nhà Nguyễn"
-                    }
-                ],
-                medium: [
-                    {
-                        question: "Trận chiến Điện Biên Phủ kết thúc vào năm nào?",
-                        options: ["1953", "1954", "1955", "1956"],
-                        correctIndex: 1,
-                        hint: "Năm kết thúc chiến tranh Đông Dương"
-                    }
-                ],
-                hard: [
-                    {
-                        question: "Vị vua nào trị vì lâu nhất trong lịch sử Việt Nam?",
-                        options: ["Lý Nhân Tông", "Lê Thánh Tông", "Lê Hiển Tông", "Minh Mạng"],
-                        correctIndex: 2,
-                        hint: "Vua cuối triều Hậu Lê, trị vì 47 năm"
-                    }
-                ]
+            {
+                question: "Ngày Quốc khánh Việt Nam là ngày nào? (viết theo format dd/mm)",
+                answer: "02/09",
+                hintCode: "9012",
+                hint: "Ngày này vào năm 1945, Bác Hồ đọc bản Tuyên ngôn Độc lập tại Quảng trường Ba Đình"
             },
-            geography: {
-                easy: [
-                    {
-                        question: "Dãy núi nào dài nhất Việt Nam?",
-                        options: ["Hoàng Liên Sơn", "Trường Sơn", "Đông Triều", "Ngân Sơn"],
-                        correctIndex: 1,
-                        hint: "Dãy núi chạy dọc theo biên giới Việt-Lào"
-                    }
-                ],
-                medium: [
-                    {
-                        question: "Đồng bằng nào lớn nhất Việt Nam?",
-                        options: ["Đồng bằng sông Hồng", "Đồng bằng sông Cửu Long", "Đồng bằng duyên hải Miền Trung", "Đồng bằng Thanh-Nghệ-Tĩnh"],
-                        correctIndex: 1,
-                        hint: "Đồng bằng nằm ở miền Tây Nam Bộ"
-                    }
-                ],
-                hard: [
-                    {
-                        question: "Đỉnh núi cao nhất Đông Dương thuộc dãy núi nào?",
-                        options: ["Hoàng Liên Sơn", "Trường Sơn", "Kon Tum", "Tây Côn Lĩnh"],
-                        correctIndex: 0,
-                        hint: "Dãy núi ở phía Tây Bắc Việt Nam"
-                    }
-                ]
+            {
+                question: "Hành tinh nào gần Mặt Trời nhất?",
+                answer: "sao thủy",
+                hintCode: "3456",
+                hint: "Đây là hành tinh nhỏ nhất trong hệ Mặt Trời, có tên theo vị thần truyền tin trong thần thoại La Mã"
+            },
+            {
+                question: "Ai là người sáng lập ra Microsoft?",
+                answer: "bill gates",
+                hintCode: "7890",
+                hint: "Ông là một trong những người giàu nhất thế giới và cũng nổi tiếng với các hoạt động từ thiện"
             }
-        };
+        ];
 
         // Biến toàn cục
-        let currentQuestion = null;
+        let currentQuestionIndex = 0;
         let score = 0;
         let correctAnswers = 0;
         let totalQuestions = 0;
-        let selectedCategory = 'general';
-        let selectedDifficulty = 'easy';
-        let usedQuestions = {};
-        
-        // Khởi tạo usedQuestions
-        for (const category in questionDatabase) {
-            usedQuestions[category] = {};
-            for (const difficulty in questionDatabase[category]) {
-                usedQuestions[category][difficulty] = [];
-            }
-        }
         
         // DOM Elements
         const questionElement = document.getElementById('question');
-        const optionsContainer = document.getElementById('options-container');
+        const answerInput = document.getElementById('answer-input');
+        const submitBtn = document.getElementById('submit-btn');
+        const hintBtn = document.getElementById('hint-btn');
+        const hintInputContainer = document.getElementById('hint-input-container');
+        const hintInput = document.getElementById('hint-input');
+        const hintSubmitBtn = document.getElementById('hint-submit-btn');
+        const hintText = document.getElementById('hint-text');
+        const feedbackElement = document.getElementById('feedback');
+        const nextBtn = document.getElementById('next-btn');
         const scoreElement = document.getElementById('score');
         const correctElement = document.getElementById('correct');
         const totalElement = document.getElementById('total');
-        const feedbackElement = document.getElementById('feedback');
-        const nextButton = document.getElementById('next-btn');
-        const resetButton = document.getElementById('reset-btn');
-        const hintButton = document.getElementById('hint-btn');
-        const categoryButtons = document.querySelectorAll('.category-btn');
-        const difficultyButtons = document.querySelectorAll('.difficulty-btn');
         
-        // Hàm lấy câu hỏi ngẫu nhiên
-        function getRandomQuestion() {
-            const availableQuestions = questionDatabase[selectedCategory][selectedDifficulty];
+        // Khởi tạo trò chơi
+        function initGame() {
+            displayQuestion();
             
-            // Nếu đã dùng hết câu hỏi, đánh dấu lại để dùng lại
-            if (usedQuestions[selectedCategory][selectedDifficulty].length >= availableQuestions.length) {
-                usedQuestions[selectedCategory][selectedDifficulty] = [];
-            }
+            // Sự kiện nút gửi câu trả lời
+            submitBtn.addEventListener('click', checkAnswer);
             
-            let randomIndex;
-            do {
-                randomIndex = Math.floor(Math.random() * availableQuestions.length);
-            } while (usedQuestions[selectedCategory][selectedDifficulty].includes(randomIndex));
+            // Sự kiện nhấn Enter trong ô nhập câu trả lời
+            answerInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    checkAnswer();
+                }
+            });
             
-            usedQuestions[selectedCategory][selectedDifficulty].push(randomIndex);
-            return availableQuestions[randomIndex];
+            // Sự kiện nút mở gợi ý
+            hintBtn.addEventListener('click', function() {
+                hintInputContainer.style.display = 'block';
+                hintText.style.display = 'none';
+            });
+            
+            // Sự kiện nút xác nhận mật mã gợi ý
+            hintSubmitBtn.addEventListener('click', function() {
+                if (hintInput.value === questions[currentQuestionIndex].hintCode) {
+                    hintText.textContent = "💡 Gợi ý: " + questions[currentQuestionIndex].hint;
+                    hintText.style.display = 'block';
+                    hintInputContainer.style.display = 'none';
+                    hintInput.value = '';
+                } else {
+                    alert("Mật mã không đúng! Vui lòng thử lại.");
+                    hintInput.value = '';
+                }
+            });
+            
+            // Sự kiện nút câu tiếp theo
+            nextBtn.addEventListener('click', nextQuestion);
         }
         
         // Hiển thị câu hỏi
         function displayQuestion() {
-            currentQuestion = getRandomQuestion();
-            questionElement.textContent = currentQuestion.question;
-            
-            const options = document.querySelectorAll('.option');
-            options.forEach((option, index) => {
-                option.textContent = currentQuestion.options[index];
-                option.className = 'option';
-                option.onclick = () => checkAnswer(index);
-            });
-            
-            feedbackElement.textContent = '';
-            nextButton.disabled = true;
-            totalQuestions++;
-            totalElement.textContent = totalQuestions;
+            if (currentQuestionIndex < questions.length) {
+                questionElement.textContent = questions[currentQuestionIndex].question;
+                answerInput.value = '';
+                feedbackElement.textContent = '';
+                feedbackElement.className = 'feedback';
+                nextBtn.style.display = 'none';
+                hintInputContainer.style.display = 'none';
+                hintText.style.display = 'none';
+                totalQuestions++;
+                totalElement.textContent = totalQuestions;
+            } else {
+                questionElement.textContent = "Chúc mừng! Bạn đã hoàn thành tất cả câu hỏi!";
+                answerInput.style.display = 'none';
+                submitBtn.style.display = 'none';
+                hintBtn.style.display = 'none';
+                nextBtn.style.display = 'none';
+            }
         }
         
-        // Kiểm tra đáp án
-        function checkAnswer(selectedIndex) {
-            const options = document.querySelectorAll('.option');
-            const correctIndex = currentQuestion.correctIndex;
+        // Kiểm tra câu trả lời
+        function checkAnswer() {
+            const userAnswer = answerInput.value.trim().toLowerCase();
+            const correctAnswer = questions[currentQuestionIndex].answer;
             
-            options.forEach(option => {
-                option.onclick = null;
-            });
+            if (userAnswer === '') {
+                feedbackElement.textContent = 'Vui lòng nhập câu trả lời!';
+                feedbackElement.className = 'feedback incorrect';
+                return;
+            }
             
-            if (selectedIndex === correctIndex) {
-                options[selectedIndex].classList.add('correct');
+            if (userAnswer === correctAnswer) {
                 feedbackElement.textContent = 'Chính xác! 🎉';
-                feedbackElement.style.color = '#4caf50';
-                score += selectedDifficulty === 'easy' ? 10 : selectedDifficulty === 'medium' ? 20 : 30;
+                feedbackElement.className = 'feedback correct';
+                score += 10;
                 correctAnswers++;
                 scoreElement.textContent = score;
                 correctElement.textContent = correctAnswers;
                 createConfetti();
+                nextBtn.style.display = 'block';
             } else {
-                options[selectedIndex].classList.add('incorrect');
-                options[correctIndex].classList.add('correct');
-                feedbackElement.textContent = `Sai rồi! Đáp án đúng là: ${currentQuestion.options[correctIndex]}`;
-                feedbackElement.style.color = '#f44336';
+                feedbackElement.textContent = 'Sai rồi! Hãy thử lại.';
+                feedbackElement.className = 'feedback incorrect';
             }
-            
-            nextButton.disabled = false;
+        }
+        
+        // Chuyển câu hỏi tiếp theo
+        function nextQuestion() {
+            currentQuestionIndex++;
+            displayQuestion();
         }
         
         // Tạo hiệu ứng confetti
@@ -510,57 +470,8 @@
             }
         }
         
-        // Hiển thị gợi ý
-        function showHint() {
-            if (currentQuestion && currentQuestion.hint) {
-                feedbackElement.textContent = `💡 Gợi ý: ${currentQuestion.hint}`;
-                feedbackElement.style.color = '#ffeb3b';
-            }
-        }
-        
-        // Reset trò chơi
-        function resetGame() {
-            score = 0;
-            correctAnswers = 0;
-            totalQuestions = 0;
-            scoreElement.textContent = score;
-            correctElement.textContent = correctAnswers;
-            totalElement.textContent = totalQuestions;
-            
-            for (const category in usedQuestions) {
-                for (const difficulty in usedQuestions[category]) {
-                    usedQuestions[category][difficulty] = [];
-                }
-            }
-            
-            displayQuestion();
-        }
-        
-        // Xử lý sự kiện
-        nextButton.addEventListener('click', displayQuestion);
-        resetButton.addEventListener('click', resetGame);
-        hintButton.addEventListener('click', showHint);
-        
-        categoryButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                categoryButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                selectedCategory = button.dataset.category;
-                displayQuestion();
-            });
-        });
-        
-        difficultyButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                difficultyButtons.forEach(btn => btn.classList.remove('active'));
-                button.classList.add('active');
-                selectedDifficulty = button.dataset.difficulty;
-                displayQuestion();
-            });
-        });
-        
-        // Khởi tạo trò chơi
-        displayQuestion();
+        // Khởi động trò chơi
+        window.addEventListener('load', initGame);
     </script>
 </body>
 </html>
