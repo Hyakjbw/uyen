@@ -1,13 +1,566 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Trang tỏ tình ❤️</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đố Vui Không Giới Hạn</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .score-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        
+        .score-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 25px;
+            border-radius: 15px;
+            min-width: 120px;
+        }
+        
+        .score-label {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        .score-value {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        
+        .question-container {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .question {
+            font-size: 22px;
+            line-height: 1.5;
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .option {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .option.correct {
+            background: rgba(76, 175, 80, 0.7);
+            border-color: #4caf50;
+        }
+        
+        .option.incorrect {
+            background: rgba(244, 67, 54, 0.7);
+            border-color: #f44336;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 25px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        .btn-next {
+            background: rgba(33, 150, 243, 0.7);
+        }
+        
+        .category-selector {
+            margin-bottom: 20px;
+        }
+        
+        .category-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 8px 20px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .category-btn.active {
+            background: rgba(33, 150, 243, 0.7);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .feedback {
+            margin-top: 20px;
+            font-size: 18px;
+            min-height: 27px;
+        }
+        
+        .difficulty-selector {
+            margin: 15px 0;
+        }
+        
+        .difficulty-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            padding: 6px 15px;
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .difficulty-btn.active {
+            background: rgba(156, 39, 176, 0.7);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        @media (max-width: 600px) {
+            .options-container {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            .question {
+                font-size: 18px;
+            }
+            
+            .score-container {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+            
+            .score-box {
+                width: 100%;
+                max-width: 200px;
+            }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
 </head>
-<body style="text-align:center; font-family:Arial;">
-  <h1>Xin chào Crush 💕</h1>
-  <p>Mình thích bạn lắm, làm người yêu mình nha 🥰</p>
-  <button onclick="alert('Tuyệt vời! Đồng ý rồi nha ❤️')">Đồng ý</button>
-  <button onclick="alert('Không được từ chối đâu 😝')">Không</button>
+<body>
+    <div class="container">
+        <h1><i class="fas fa-brain"></i> Đố Vui Không Giới Hạn</h1>
+        
+        <div class="category-selector">
+            <button class="category-btn active" data-category="general">Tổng hợp</button>
+            <button class="category-btn" data-category="science">Khoa học</button>
+            <button class="category-btn" data-category="history">Lịch sử</button>
+            <button class="category-btn" data-category="geography">Địa lý</button>
+        </div>
+        
+        <div class="difficulty-selector">
+            <button class="difficulty-btn active" data-difficulty="easy">Dễ</button>
+            <button class="difficulty-btn" data-difficulty="medium">Trung bình</button>
+            <button class="difficulty-btn" data-difficulty="hard">Khó</button>
+        </div>
+        
+        <div class="score-container">
+            <div class="score-box">
+                <div class="score-label">Điểm số</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-box">
+                <div class="score-label">Câu đúng</div>
+                <div class="score-value" id="correct">0</div>
+            </div>
+            <div class="score-box">
+                <div class="score-label">Câu hỏi</div>
+                <div class="score-value" id="total">0</div>
+            </div>
+        </div>
+        
+        <div class="question-container">
+            <div class="question" id="question">Bấm "Câu tiếp theo" để bắt đầu!</div>
+        </div>
+        
+        <div class="options-container" id="options-container">
+            <div class="option" data-index="0">Đáp án 1</div>
+            <div class="option" data-index="1">Đáp án 2</div>
+            <div class="option" data-index="2">Đáp án 3</div>
+            <div class="option" data-index="3">Đáp án 4</div>
+        </div>
+        
+        <div class="feedback" id="feedback"></div>
+        
+        <div class="controls">
+            <button class="btn" id="hint-btn"><i class="fas fa-lightbulb"></i> Gợi ý</button>
+            <button class="btn btn-next" id="next-btn">Câu tiếp theo</button>
+            <button class="btn" id="reset-btn"><i class="fas fa-redo"></i> Reset</button>
+        </div>
+    </div>
+
+    <script>
+        // Cơ sở dữ liệu câu hỏi mẫu
+        const questionDatabase = {
+            general: {
+                easy: [
+                    {
+                        question: "Thủ đô của Việt Nam là gì?",
+                        options: ["Hà Nội", "Hồ Chí Minh", "Đà Nẵng", "Cần Thơ"],
+                        correctIndex: 0,
+                        hint: "Thành phố này nằm ở miền Bắc Việt Nam"
+                    },
+                    {
+                        question: "Loài động vật nào được gọi là 'Chúa tể sơn lâm'?",
+                        options: ["Sư tử", "Hổ", "Báo", "Gấu"],
+                        correctIndex: 1,
+                        hint: "Loài vật này có các sọc vằn trên người"
+                    }
+                ],
+                medium: [
+                    {
+                        question: "Ngày Quốc khánh Việt Nam là ngày nào?",
+                        options: ["30/4", "2/9", "19/5", "10/10"],
+                        correctIndex: 1,
+                        hint: "Ngày này vào năm 1945"
+                    }
+                ],
+                hard: [
+                    {
+                        question: "Năm nào được gọi là 'Năm châu Phi'?",
+                        options: ["1956", "1960", "1965", "1970"],
+                        correctIndex: 1,
+                        hint: "Năm mà 17 quốc gia châu Phi giành được độc lập"
+                    }
+                ]
+            },
+            science: {
+                easy: [
+                    {
+                        question: "Hành tinh nào gần Mặt Trời nhất?",
+                        options: ["Sao Thủy", "Sao Kim", "Trái Đất", "Sao Hỏa"],
+                        correctIndex: 0,
+                        hint: "Hành tinh nhỏ nhất trong hệ Mặt Trời"
+                    }
+                ],
+                medium: [
+                    {
+                        question: "Nguyên tố nào có số nguyên tử là 1?",
+                        options: ["Heli", "Oxy", "Hydro", "Carbon"],
+                        correctIndex: 2,
+                        hint: "Nguyên tố nhẹ nhất"
+                    }
+                ],
+                hard: [
+                    {
+                        question: "Hiện tượng nào sau đây không phải là hiệu ứng lượng tử?",
+                        options: ["Giao thoa", "Đường hầm lượng tử", "Siêu dẫn", "Cảm ứng điện từ"],
+                        correctIndex: 3,
+                        hint: "Hiện tượng này được mô tả bởi định luật Faraday"
+                    }
+                ]
+            },
+            history: {
+                easy: [
+                    {
+                        question: "Ai là vị vua đầu tiên của nước Việt Nam thống nhất?",
+                        options: ["Lý Thái Tổ", "Lê Thánh Tông", "Gia Long", "Quang Trung"],
+                        correctIndex: 2,
+                        hint: "Người sáng lập nhà Nguyễn"
+                    }
+                ],
+                medium: [
+                    {
+                        question: "Trận chiến Điện Biên Phủ kết thúc vào năm nào?",
+                        options: ["1953", "1954", "1955", "1956"],
+                        correctIndex: 1,
+                        hint: "Năm kết thúc chiến tranh Đông Dương"
+                    }
+                ],
+                hard: [
+                    {
+                        question: "Vị vua nào trị vì lâu nhất trong lịch sử Việt Nam?",
+                        options: ["Lý Nhân Tông", "Lê Thánh Tông", "Lê Hiển Tông", "Minh Mạng"],
+                        correctIndex: 2,
+                        hint: "Vua cuối triều Hậu Lê, trị vì 47 năm"
+                    }
+                ]
+            },
+            geography: {
+                easy: [
+                    {
+                        question: "Dãy núi nào dài nhất Việt Nam?",
+                        options: ["Hoàng Liên Sơn", "Trường Sơn", "Đông Triều", "Ngân Sơn"],
+                        correctIndex: 1,
+                        hint: "Dãy núi chạy dọc theo biên giới Việt-Lào"
+                    }
+                ],
+                medium: [
+                    {
+                        question: "Đồng bằng nào lớn nhất Việt Nam?",
+                        options: ["Đồng bằng sông Hồng", "Đồng bằng sông Cửu Long", "Đồng bằng duyên hải Miền Trung", "Đồng bằng Thanh-Nghệ-Tĩnh"],
+                        correctIndex: 1,
+                        hint: "Đồng bằng nằm ở miền Tây Nam Bộ"
+                    }
+                ],
+                hard: [
+                    {
+                        question: "Đỉnh núi cao nhất Đông Dương thuộc dãy núi nào?",
+                        options: ["Hoàng Liên Sơn", "Trường Sơn", "Kon Tum", "Tây Côn Lĩnh"],
+                        correctIndex: 0,
+                        hint: "Dãy núi ở phía Tây Bắc Việt Nam"
+                    }
+                ]
+            }
+        };
+
+        // Biến toàn cục
+        let currentQuestion = null;
+        let score = 0;
+        let correctAnswers = 0;
+        let totalQuestions = 0;
+        let selectedCategory = 'general';
+        let selectedDifficulty = 'easy';
+        let usedQuestions = {};
+        
+        // Khởi tạo usedQuestions
+        for (const category in questionDatabase) {
+            usedQuestions[category] = {};
+            for (const difficulty in questionDatabase[category]) {
+                usedQuestions[category][difficulty] = [];
+            }
+        }
+        
+        // DOM Elements
+        const questionElement = document.getElementById('question');
+        const optionsContainer = document.getElementById('options-container');
+        const scoreElement = document.getElementById('score');
+        const correctElement = document.getElementById('correct');
+        const totalElement = document.getElementById('total');
+        const feedbackElement = document.getElementById('feedback');
+        const nextButton = document.getElementById('next-btn');
+        const resetButton = document.getElementById('reset-btn');
+        const hintButton = document.getElementById('hint-btn');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+        
+        // Hàm lấy câu hỏi ngẫu nhiên
+        function getRandomQuestion() {
+            const availableQuestions = questionDatabase[selectedCategory][selectedDifficulty];
+            
+            // Nếu đã dùng hết câu hỏi, đánh dấu lại để dùng lại
+            if (usedQuestions[selectedCategory][selectedDifficulty].length >= availableQuestions.length) {
+                usedQuestions[selectedCategory][selectedDifficulty] = [];
+            }
+            
+            let randomIndex;
+            do {
+                randomIndex = Math.floor(Math.random() * availableQuestions.length);
+            } while (usedQuestions[selectedCategory][selectedDifficulty].includes(randomIndex));
+            
+            usedQuestions[selectedCategory][selectedDifficulty].push(randomIndex);
+            return availableQuestions[randomIndex];
+        }
+        
+        // Hiển thị câu hỏi
+        function displayQuestion() {
+            currentQuestion = getRandomQuestion();
+            questionElement.textContent = currentQuestion.question;
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.textContent = currentQuestion.options[index];
+                option.className = 'option';
+                option.onclick = () => checkAnswer(index);
+            });
+            
+            feedbackElement.textContent = '';
+            nextButton.disabled = true;
+            totalQuestions++;
+            totalElement.textContent = totalQuestions;
+        }
+        
+        // Kiểm tra đáp án
+        function checkAnswer(selectedIndex) {
+            const options = document.querySelectorAll('.option');
+            const correctIndex = currentQuestion.correctIndex;
+            
+            options.forEach(option => {
+                option.onclick = null;
+            });
+            
+            if (selectedIndex === correctIndex) {
+                options[selectedIndex].classList.add('correct');
+                feedbackElement.textContent = 'Chính xác! 🎉';
+                feedbackElement.style.color = '#4caf50';
+                score += selectedDifficulty === 'easy' ? 10 : selectedDifficulty === 'medium' ? 20 : 30;
+                correctAnswers++;
+                scoreElement.textContent = score;
+                correctElement.textContent = correctAnswers;
+                createConfetti();
+            } else {
+                options[selectedIndex].classList.add('incorrect');
+                options[correctIndex].classList.add('correct');
+                feedbackElement.textContent = `Sai rồi! Đáp án đúng là: ${currentQuestion.options[correctIndex]}`;
+                feedbackElement.style.color = '#f44336';
+            }
+            
+            nextButton.disabled = false;
+        }
+        
+        // Tạo hiệu ứng confetti
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + '%';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                confetti.style.animation = `confettiFall ${Math.random() * 3 + 2}s linear forwards`;
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => {
+                    confetti.remove();
+                }, 5000);
+            }
+        }
+        
+        // Hiển thị gợi ý
+        function showHint() {
+            if (currentQuestion && currentQuestion.hint) {
+                feedbackElement.textContent = `💡 Gợi ý: ${currentQuestion.hint}`;
+                feedbackElement.style.color = '#ffeb3b';
+            }
+        }
+        
+        // Reset trò chơi
+        function resetGame() {
+            score = 0;
+            correctAnswers = 0;
+            totalQuestions = 0;
+            scoreElement.textContent = score;
+            correctElement.textContent = correctAnswers;
+            totalElement.textContent = totalQuestions;
+            
+            for (const category in usedQuestions) {
+                for (const difficulty in usedQuestions[category]) {
+                    usedQuestions[category][difficulty] = [];
+                }
+            }
+            
+            displayQuestion();
+        }
+        
+        // Xử lý sự kiện
+        nextButton.addEventListener('click', displayQuestion);
+        resetButton.addEventListener('click', resetGame);
+        hintButton.addEventListener('click', showHint);
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                selectedCategory = button.dataset.category;
+                displayQuestion();
+            });
+        });
+        
+        difficultyButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                difficultyButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                selectedDifficulty = button.dataset.difficulty;
+                displayQuestion();
+            });
+        });
+        
+        // Khởi tạo trò chơi
+        displayQuestion();
+    </script>
 </body>
 </html>
